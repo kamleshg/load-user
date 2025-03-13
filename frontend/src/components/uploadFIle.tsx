@@ -30,24 +30,24 @@ const UploadFile = () => {
       // const txt = reader.readAsText(file);
       // console.log("txt=" + txt)
       const data = await store(file);
-
       console.log("data: " + data)
+
+      const resp = await postData(file)
+      console.log("resp: " + resp)
+      
     } catch (err) {
       console.log("ERROR: " + err)
     }
   };
 
-  const postData = async () => {
+  const postData = async (file: File) => {
     setLoading(true);
     try {
       await new Promise(f => setTimeout(f, 1000));
 
-      const res = await fetch("https://qv5qz2aob5iv8jvupo-dev-dktqzx4wc4i243s7s7.us-east-1.aws.squid.cloud/webhooks/example-service-webhook", {
+      const res = await fetch("https://qv5qz2aob5iv8jvupo-dev-dktqzx4wc4i243s7s7.us-east-1.aws.squid.cloud/webhooks/extractFile", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
+        body: file,
       });
 
       if (!res.ok) 
@@ -70,7 +70,7 @@ const UploadFile = () => {
     <div>
       <input type="file" onChange={handleFileChange} accept=".txt,.pdf,.jpg" />
       <button
-        onClick={() => selectedFile && postData()}
+        onClick={() => selectedFile && processFile(selectedFile)}
         disabled={!selectedFile}
       >
         {loading ? "Uploading..." : "Upload"}

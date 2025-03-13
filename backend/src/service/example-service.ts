@@ -1,22 +1,9 @@
 import { secureCollection, secureDatabase, SquidService, webhook, QueryContext } from '@squidcloud/backend';
-import { secureStorage } from '@squidcloud/backend';
+import { SquidFile, WebhookRequest, WebhookResponse, secureStorage } from '@squidcloud/backend';
+import { Squid } from '@squidcloud/client';
 
 type User = { id: string; email: string; age: number };
 
-/**
- * Here you can define different backend functions that:
- * 1 - Can be called from the frontend
- * 2 - Can secure data access
- * 3 - Can be called as a trigger
- * 4 - Can define a webhook
- * 5 - Can be called as a scheduler
- * 6 - And more
- *
- * Note: This code will be executed in a secure environment and can perform any operation including database access,
- * API calls, etc.
- *
- * For more information and examples see: https://docs.squid.cloud/docs/development-tools/backend/
- */
 export class ExampleService extends SquidService {
   
   @secureStorage('all', 'built_in_storage')
@@ -44,5 +31,36 @@ export class ExampleService extends SquidService {
     };
     console.log(response); // This message will appear in the "Logs" tab of the Squid Console.
     return response;
+  }
+
+  @webhook('extractFile')
+  async handleStripePayment(request: WebhookRequest): Promise<WebhookResponse | any> {
+    const squid = new Squid({ appId: 'qv5qz2aob5iv8jvupo', region: 'us-east-1.aws', environmentId: 'dev', squidDeveloperId: 'dktqzx4wc4i243s7s7' });
+    const extractionClient = this.squid.extraction();
+    
+    
+    // const contents = await squid.storage().listDirectoryContents('resumes');
+    // contents.files.forEach((element) => console.log(element));
+
+    const urlResponse = await squid.storage().getDownloadUrl('resumes/Kamlesh Gokal.pdf', 7200);
+    console.log(urlResponse.url);
+        
+    const resp = await fetch(urlResponse.url);
+    const blob = await resp.blob();
+
+    console.log(blob)
+    
+    const file = new File([blob], "Kamlesh Gokal.pdf")
+
+    const data = {
+      blob: blob,
+      name: 'Kamlesh Gokal.pdf',
+    };
+    
+    const extractedResult = await extractionClient.extractDataFromDocumentFile(
+      data
+    );
+    console.log(extractedResult); // 'Q4 Development Plan...'
+    return this.createWebhookResponse("{}");
   }
 }
