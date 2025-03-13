@@ -11,6 +11,8 @@ const store = async (file: File): Promise<File> => {
 
 const UploadFile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [response, setResponse] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   
   // Handle file selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,16 +37,46 @@ const UploadFile = () => {
     }
   };
 
+  const postData = async () => {
+    setLoading(true);
+    try {
+      await new Promise(f => setTimeout(f, 1000));
+
+      const res = await fetch("https://qv5qz2aob5iv8jvupo-dev-dktqzx4wc4i243s7s7.us-east-1.aws.squid.cloud/webhooks/example-service-webhook", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+
+      if (!res.ok) 
+        throw new Error(`HTTP error! Status: ${res.status}`);
+
+      const result = await res.json();
+      console.log("result:  " + res);
+      
+      setResponse(result.appId);
+      
+    } catch (error) {
+      console.error("Error posting data:", error);
+      setResponse("Failed to create post");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <input type="file" onChange={handleFileChange} accept=".txt,.pdf,.jpg" />
       <button
-        onClick={() => selectedFile && processFile(selectedFile)}
+        onClick={() => selectedFile && postData()}
         disabled={!selectedFile}
       >
-        Process File
+        {loading ? "Uploading..." : "Upload"}
       </button>
       {selectedFile && <p>Selected File: {selectedFile.name}</p>}
+      {response && <p>{response}</p>}
     </div>
   );
 };
