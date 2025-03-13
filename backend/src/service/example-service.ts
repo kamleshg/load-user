@@ -1,4 +1,5 @@
 import { secureCollection, secureDatabase, SquidService, webhook, QueryContext } from '@squidcloud/backend';
+import { secureStorage } from '@squidcloud/backend';
 
 type User = { id: string; email: string; age: number };
 
@@ -17,6 +18,12 @@ type User = { id: string; email: string; age: number };
  * For more information and examples see: https://docs.squid.cloud/docs/development-tools/backend/
  */
 export class ExampleService extends SquidService {
+  
+  @secureStorage('all', 'built_in_storage')
+  allowAllAccessToBuiltInStorage(): boolean {
+      return true;
+  }
+
   @secureCollection('users', 'read')
   secureUsersRead(context: QueryContext<User>): boolean {
     /** Checks whether the user is authenticated */
