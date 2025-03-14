@@ -51,24 +51,26 @@ export class ExampleService extends SquidService {
     const extractionClient = this.squid.extraction();
     
     
-    // const contents = await squid.storage().listDirectoryContents('resumes');
-    // contents.files.forEach((element) => console.log(element));
+    const contents = await squid.storage().listDirectoryContents('resumes');
+    // contents.files.forEach((element) => console.log("RESUME: " + element.absoluteFilePathInBucket));
+    
+    console.log("Summarize: " + contents.files[0].absoluteFilePathInBucket)
 
-    const urlResponse = await squid.storage().getDownloadUrl('resumes/Kamlesh Gokal.pdf', 7200);
-    console.log(urlResponse.url);
+    const urlResponse = await squid.storage().getDownloadUrl(contents.files[0].absoluteFilePathInBucket, 7200);
+    // console.log(urlResponse.url);
         
     const resp = await fetch(urlResponse.url);
     const blob = await resp.blob();
 
-    console.log(blob)
-    
-    const file = new File([blob], "Kamlesh Gokal.pdf")
+    const file = new File([blob], "Resume.pdf")
 
     const data = {
       blob: blob,
-      name: 'Kamlesh Gokal.pdf',
+      name: 'Resume.pdf',
     };
     
+    await squid.storage().deleteFile(contents.files[0].absoluteFilePathInBucket);
+
     const extractedResult = await extractionClient.extractDataFromDocumentFile(
       data
     );
@@ -100,7 +102,7 @@ export class ExampleService extends SquidService {
      answer: 'Well the answer is hes awesome!'
     }
 
-    console.log("response: " + response)
+    console.log("response: " + JSON.stringify(response))
 
     return this.createWebhookResponse(JSON.stringify(response));
   }

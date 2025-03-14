@@ -5,7 +5,7 @@ const store = async (file: File): Promise<File> => {
   const squid = new Squid({ appId: 'qv5qz2aob5iv8jvupo', region: 'us-east-1.aws', environmentId: 'dev', squidDeveloperId: 'dktqzx4wc4i243s7s7' });
   squid.storage(); // accesses the built-in storage bucket
   const response = await squid.storage().uploadFile('resumes', file);
-  console.log("Upload: " + response);
+  // console.log("Upload: " + response);
   return file;
 };
 
@@ -30,10 +30,10 @@ const UploadFile = () => {
       // const txt = reader.readAsText(file);
       // console.log("txt=" + txt)
       const data = await store(file);
-      console.log("data: " + data)
+      // console.log("data: " + data)
 
       const resp = await postData(file)
-      console.log("resp: " + resp)
+      // console.log("resp: " + resp)
       
     } catch (err) {
       console.log("ERROR: " + err)
