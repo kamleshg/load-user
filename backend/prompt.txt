@@ -1,0 +1,85 @@
+Given the following:  
+1020 Blue Indigo Dr. 
+Roswell, GA KAMLESH GOKAL 
+(678) 358-7740 
+kgokal@gatech.edu  
+ 
+EMPLOYMENT 
+ 
+Senior Solutions Architect Redis Inc. 2020 – Present 
+● Effectively assisted customers in meeting their business needs by leveraging industry design patterns and products. 
+● Skillfully assessed, qualified, and validated opportunities through discovery calls and technical deep dives. 
+● Actively collaborated with stakeholders and technical teams to ensure the successful implementation of solutions, 
+including Proof of Concepts (POCs) and demonstrations. 
+● Worked closely with the Sales team to develop comprehensive go-to-market plans for both existing and new 
+accounts. 
+● Delivered customized presentations and educational sessions to advocate for our products and solutions across 
+various industries. 
+● Acted as the voice of the customer by conveying their feedback to the product team, contributing to the roadmap 
+development to address various customer requests and suggestions for improvement. 
+ 
+Principal Solutions Architect Magenic Technologies 2018 – 2020 
+● Presented modern strategies and tools for running scalable and cost-effective software to C-Suite and 
+Management, while elaborating on the value proposition. 
+● Effectively bridged the gap between technical and non-technical audiences, ensuring a comprehensive 
+understanding of solutions and gaining buy-in. 
+● Conducted training sessions on modern development, cloud principles, practices, and product offerings. 
+● Analyzed clients' portfolios of applications and developed a roadmap, assisting in choosing the appropriate 
+technology to achieve their goals. 
+● Offered architectural designs, templates, Proof of Concept (POC) demonstrations, and development capacity to 
+modernize the portfolio. 
+ 
+Technical Architect  Daugherty Business Solutions 2013 –2018 
+● Led the architectural design and execution of the modernization of POS and Store Freight systems, migrating them 
+to the cloud for a Fortune 50 company. 
+● Served as the Lead Architect for the modernization of a cloud-based Online Management System and Distributed 
+Inventory Management System, transforming them into scalable cloud-based solutions for a Fortune 50 Company 
+to enhance competitiveness. 
+● Successfully generated $4 million in new projects by managing the sales cycle and delivering high-quality software 
+development. 
+ 
+Software Engineer III Silverpop Systems (IBM) 2011 –2013 
+● Developed a cutting-edge feature that significantly increased open rates by double digits. 
+● Constructed the Proof of Concept (POC) for a universal behavior tracking system, resulting in the introduction of a 
+brand-new offering to the customer. 
+ 
+Software Developer III T-Mobile USA 2006-2011 
+● Designed and implemented the complete automated deployment and configuration management pipeline 
+responsible for overseeing more than 60 distinct environments. 
+ 
+Systems Engineer Prof. IBM 2001-2004 
+● Automated entire anti-virus packaging and deployments of McAfee DAT files released daily 
+ 
+ 
+ 
+ 
+EDUCATION 
+Atlanta, GA Georgia Institute of Technology 2013-2014 
+● M.S. in Business Administration, with focus in Management of Technology 
+o Capstone Project: Build a start-up business plan using an emerging technology 
+● Graduate Coursework: emerging technologies, change management, technology forecasting, and analysis of global 
+environments 
+ 
+● Undergraduate at Valdosta State University: Operating Systems; Databases; Algorithms; Programming Languages; 
+Comp. Architecture; Engineering Entrepreneurship; Calculus III. 
+ 
+TECHNICAL EXPERIENCE 
+● Global Transaction Management System Cloud Migration (2019-2020). Analyze and design a multi-phase approach 
+to the modernization and migration of a high-volume trading platform to the cloud 
+● Order Management System Modernization (2018 – 2019). Plan and design a distributed Order Management 
+System alongside a Distributed Inventory Management System in the cloud. 
+● Enterprise Cloud Migration (2014-2018).  Designed a roadmap and new architecture, in addition to development 
+capacity, to migrate an enterprises POS and Store Freight systems to the cloud 
+ 
+ADDITIONAL EXPERIENCE AND CERTIFICATIONS 
+● AWS Certified Cloud Practitioner – 2020 ● AWS Certified Solutions Architect: Associate - 2020 
+● Cloud Foundry Certified Developer – 2019 ● Certified Safe Agilist – 2019 
+● Google Cloud Platform Qualified Data Analyst - 2016 ● Google Cloud Platform Qualified Solution Developer - 2016 
+LANGUAGES and Technologies 
+● Java; Ruby; Python; JavaScript; Bash; React;  
+● Amazon Web Services; Google Cloud Platform; Pivotal Cloud Foundry; Heroku; 
+● Maven; Gradle; Jenkins; Concourse;   
+● Tomcat; Jetty; WebSphere; WebLogic; 
+● Microsoft SQL Server; Oracle; MongoDB; Cassandra; 
+
+Summarize the following for me: 1) Top 3 Skill 2) Languages known 3) for each role mention position and duration 4) Strengths

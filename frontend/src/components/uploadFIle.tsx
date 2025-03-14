@@ -46,15 +46,14 @@ const UploadFile = () => {
       await new Promise(f => setTimeout(f, 1000));
 
       const res = await fetch("https://qv5qz2aob5iv8jvupo-dev-dktqzx4wc4i243s7s7.us-east-1.aws.squid.cloud/webhooks/extractFile", {
-        method: "POST",
-        body: file,
+        method: "GET"
       });
 
       if (!res.ok) 
         throw new Error(`HTTP error! Status: ${res.status}`);
 
       const result = await res.json();
-      console.log("result:  " + res);
+      console.log("result:  " + result);
       
       setResponse(result.appId);
       

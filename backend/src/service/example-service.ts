@@ -1,6 +1,8 @@
-import { secureCollection, secureDatabase, SquidService, webhook, QueryContext } from '@squidcloud/backend';
+import { secureAiAgent, secureCollection, secureDatabase, SquidService, webhook, QueryContext } from '@squidcloud/backend';
 import { SquidFile, WebhookRequest, WebhookResponse, secureStorage } from '@squidcloud/backend';
-import { Squid } from '@squidcloud/client';
+import { AgentContextRequest, TextContextRequest, Squid } from '@squidcloud/client';
+import { lastValueFrom } from 'rxjs';
+
 
 type User = { id: string; email: string; age: number };
 
@@ -19,6 +21,16 @@ export class ExampleService extends SquidService {
 
   @secureDatabase('all', 'built_in_db')
   allowAllAccessToBuiltInDb(): boolean {
+    return true;
+  }
+
+  @secureAiAgent('chat')
+  allowChat(): boolean {
+    return true;
+  }
+
+  @secureAiAgent('mutate')
+  allowMutations(): boolean {
     return true;
   }
 
@@ -60,7 +72,36 @@ export class ExampleService extends SquidService {
     const extractedResult = await extractionClient.extractDataFromDocumentFile(
       data
     );
-    console.log(extractedResult); // 'Q4 Development Plan...'
-    return this.createWebhookResponse("{}");
+    // console.log(extractedResult); // 'Q4 Development Plan...'
+
+    const contextRequest: TextContextRequest = {
+      type: 'text',
+      title: 'Resume Content',
+      text: '',
+      contextId: ''
+    }
+
+    // const context = squid.ai().agent('doc-summary-agent').upsertContext(contextRequest, file)
+
+    var prompt = 'Given the following: '
+    extractedResult['pages'].forEach(element => {
+      prompt += element.text
+    });
+
+    prompt += "  Summarize the following for me: 1) Top 3 Skill 2) Languages known 3) for each role mention position and duration 4) Strengths"
+
+
+    // const answer = await lastValueFrom(
+    //   squid.ai().agent('doc-summary-agent').chat(prompt)
+    // );
+    
+    var response = {
+     prompt: prompt,
+     answer: 'Well the answer is hes awesome!'
+    }
+
+    console.log("response: " + response)
+
+    return this.createWebhookResponse(JSON.stringify(response));
   }
 }
