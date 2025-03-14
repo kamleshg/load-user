@@ -1,10 +1,12 @@
 import { secureAiAgent, secureCollection, secureDatabase, SquidService, webhook, QueryContext } from '@squidcloud/backend';
 import { SquidFile, WebhookRequest, WebhookResponse, secureStorage } from '@squidcloud/backend';
 import { AgentContextRequest, TextContextRequest, Squid } from '@squidcloud/client';
+
 import { lastValueFrom } from 'rxjs';
 
 
 type User = { id: string; email: string; age: number };
+type Resume = {prompt: string; answer: string };
 
 export class ExampleService extends SquidService {
   
@@ -15,6 +17,12 @@ export class ExampleService extends SquidService {
 
   @secureCollection('users', 'read')
   secureUsersRead(context: QueryContext<User>): boolean {
+    /** Checks whether the user is authenticated */
+    return true;
+  }
+
+  @secureCollection('resume', 'read')
+  secureResumeRead(context: QueryContext<Resume>): boolean {
     /** Checks whether the user is authenticated */
     return true;
   }
@@ -46,15 +54,15 @@ export class ExampleService extends SquidService {
   }
 
   @webhook('extractFile')
-  async handleStripePayment(request: WebhookRequest): Promise<WebhookResponse | any> {
+  async extractFile(request: WebhookRequest): Promise<WebhookResponse | any> {
     const squid = new Squid({ appId: 'qv5qz2aob5iv8jvupo', region: 'us-east-1.aws', environmentId: 'dev', squidDeveloperId: 'dktqzx4wc4i243s7s7' });
     const extractionClient = this.squid.extraction();
     
     
     const contents = await squid.storage().listDirectoryContents('resumes');
     // contents.files.forEach((element) => console.log("RESUME: " + element.absoluteFilePathInBucket));
-    
-    console.log("Summarize: " + contents.files[0].absoluteFilePathInBucket)
+    var fileName = contents.files[0].absoluteFilePathInBucket;
+    console.log("Summarize: " + fileName)
 
     const urlResponse = await squid.storage().getDownloadUrl(contents.files[0].absoluteFilePathInBucket, 7200);
     // console.log(urlResponse.url);
@@ -90,20 +98,30 @@ export class ExampleService extends SquidService {
       prompt += element.text
     });
 
-    prompt += "  Summarize the following for me: 1) Top 3 Skill 2) Languages known 3) for each role mention position and duration 4) Strengths"
+    prompt += "  Summarize the following for me: 1) Top 3 Skill 2) Languages known 3) for each role mention position and duration 4) Strengths  and answer in a JSON format"
 
 
-    // const answer = await lastValueFrom(
-    //   squid.ai().agent('doc-summary-agent').chat(prompt)
-    // );
+    var answer = await lastValueFrom(
+      squid.ai().agent('doc-summary-agent').chat(prompt)
+    );
+    answer = answer.replace("```json","")
+    answer = answer.replace("```","")
+    console.log("answer: " + answer)
     
-    var response = {
-     prompt: prompt,
-     answer: 'Well the answer is hes awesome!'
+    var jAnswer = JSON.parse(answer)
+
+    const collectionRef = squid.collection<Resume>('resume');
+    const docRef = collectionRef.doc('summarized');
+    
+    
+    var test = {  
+      prompt: prompt,
+      answer: JSON.stringify(jAnswer)
     }
 
-    console.log("response: " + JSON.stringify(response))
+    await docRef.insert(test);
 
-    return this.createWebhookResponse(JSON.stringify(response));
+
+    return this.createWebhookResponse({});
   }
 }
