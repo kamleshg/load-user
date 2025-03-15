@@ -20,10 +20,10 @@ function App() {
           <img src={reactLogo} className="logo" alt="Squid Cloud logo" />
         </a>
       </div>
-      <CreateUser />
+      {/* <CreateUser />
       <ReadUsers />
       <UpdateUsers />
-      <DeleteUsers />
+      <DeleteUsers /> */}
       <FileUpload/>
       <ReadFiles/>
     </>

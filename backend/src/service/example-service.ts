@@ -6,7 +6,9 @@ import { lastValueFrom } from 'rxjs';
 
 
 type User = { id: string; email: string; age: number };
-type Resume = {prompt: string; answer: string };
+type Roles = { Position: string; duration: string};
+type Answer = { Top_3_Skills: string[]; Languages_Known: string[]; Roles: Roles[] };
+type Resume = {prompt: string; answer: Answer };
 
 export class ExampleService extends SquidService {
   
@@ -101,14 +103,14 @@ export class ExampleService extends SquidService {
     prompt += "  Summarize the following for me: 1) Top 3 Skill 2) Languages known 3) for each role mention position and duration 4) Strengths  and answer in a JSON format"
 
 
-    var answer = await lastValueFrom(
-      squid.ai().agent('doc-summary-agent').chat(prompt)
-    );
-    answer = answer.replace("```json","")
-    answer = answer.replace("```","")
-    console.log("answer: " + answer)
+    // var answer = await lastValueFrom(
+    //   squid.ai().agent('doc-summary-agent').chat(prompt)
+    // );
+    // answer = answer.replace("```json","")
+    // answer = answer.replace("```","")
+    // console.log("answer: " + answer)
     
-    var jAnswer = JSON.parse(answer)
+    var jAnswer = JSON.parse('{"Top_3_Skills": ["Technical Consulting", "Cloud Technologies", "Sales Engineering" ], "Languages_Known": ["Java", "Python", "JavaScript", "Bash", "SQL" ], "Roles": [{"Position": "Senior Sales Engineer", "Company": "TechPro Solutions", "Duration": "April 2019 – Present" }, {"Position": "Sales Engineer", "Company": "Innovatech Solutions", "Duration": "March 2015 – March 2019" }, {"Position": "Sales Engineer", "Company": "CloudEdge Technologies", "Duration": "August 2011 – February 2015" } ], "Strengths": ["Customer-Focused Approach", "Strong Technical Acumen", "Exceptional Communicator", "Team Collaboration", "Results-Oriented" ] }')
 
     const collectionRef = squid.collection<Resume>('resume');
     const docRef = collectionRef.doc('summarized');
@@ -116,7 +118,7 @@ export class ExampleService extends SquidService {
     
     var test = {  
       prompt: prompt,
-      answer: JSON.stringify(jAnswer)
+      answer: jAnswer
     }
 
     await docRef.insert(test);

@@ -1,13 +1,6 @@
 import { Squid } from '@squidcloud/client';
 import { useState, useEffect } from "react";
 
-const store = async (file: File): Promise<File> => {
-  const squid = new Squid({ appId: 'qv5qz2aob5iv8jvupo', region: 'us-east-1.aws', environmentId: 'dev', squidDeveloperId: 'dktqzx4wc4i243s7s7' });
-  squid.storage(); // accesses the built-in storage bucket
-  const response = await squid.storage().uploadFile('resumes', file);
-  // console.log("Upload: " + response);
-  return file;
-};
 
 const UploadFile = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -23,24 +16,25 @@ const UploadFile = () => {
   const processFile = async (file: File) => {
     try {
       console.log("Processing file:", file.name);
-      // const reader = new FileReader();
-      // reader.onload = (e) => {
-      //     console.log("File content:", e.target?.result);
-      // };
-      // const txt = reader.readAsText(file);
-      // console.log("txt=" + txt)
-      const data = await store(file);
-      // console.log("data: " + data)
+      
+      await storeFile(file);
 
-      const resp = await postData(file)
-      // console.log("resp: " + resp)
+      await requestSummary(file)
       
     } catch (err) {
       console.log("ERROR: " + err)
     }
   };
 
-  const postData = async (file: File) => {
+  const storeFile = async (file: File): Promise<File> => {
+    const squid = new Squid({ appId: 'qv5qz2aob5iv8jvupo', region: 'us-east-1.aws', environmentId: 'dev', squidDeveloperId: 'dktqzx4wc4i243s7s7' });
+    squid.storage(); // accesses the built-in storage bucket
+    await squid.storage().uploadFile('resumes', file);
+    return file;
+  };
+  
+
+  const requestSummary = async (file: File) => {
     setLoading(true);
     try {
       await new Promise(f => setTimeout(f, 1000));
@@ -74,8 +68,8 @@ const UploadFile = () => {
       >
         {loading ? "Uploading..." : "Upload"}
       </button>
-      {selectedFile && <p>Selected File: {selectedFile.name}</p>}
-      {response && <p>{response}</p>}
+      {/* {selectedFile && <p>Selected File: {selectedFile.name}</p>} */}
+      {response && <blockquote>{response}</blockquote>}
     </div>
   );
 };
