@@ -14,35 +14,12 @@ export default function ReadFiles() {
   // console.log("Answer: " + JSON.stringify(resumes));
 
   return (
-    <table>
-      <tr>
-        <th>Top3</th>
-        <th>Languages_Known</th>
-        <th>Position</th>
-      </tr>
-
+    <div>
+      <h1>Summary</h1>
       {resumes.data.map((resume) => (
-        <tr>
-          <td>
-            <ul>
-              <li>{resume.data.answer.Top_3_Skills[0]}</li>
-              <li>{resume.data.answer.Top_3_Skills[1]}</li>
-              <li>{resume.data.answer.Top_3_Skills[2]}</li>
-            </ul>
-          </td>
-          <td>
-            <ul>
-              <li>{resume.data.answer.Languages_Known[0]}</li>
-              <li>{resume.data.answer.Languages_Known[1]}</li>
-              <li>{resume.data.answer.Languages_Known[2]}</li>
-            </ul>
-          </td>
-          <td>
-            {resume.data.answer.Roles[0].Position}
-          </td>
-        </tr>
+        <p>{resume.data.answer}</p>
       ))}
-  </table>
+    </div>
     
   );
 }
